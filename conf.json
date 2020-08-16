@@ -1,0 +1,38 @@
+{
+    "mongo": {
+        "host": "127.0.0.1",
+        "port": 27017,
+        "username": "",
+        "password": ""
+    },
+
+    "redis": {
+        "host": "127.0.0.1",
+        "port": 6379,
+        "username": "",
+        "password": ""
+    },
+
+    "log": {
+        "win32": "article_share.log",
+        "linux": "/tmp/article_share.log"
+    },
+
+    "dir": {
+        "win32": "C:/Users/78729/Desktop/tmp",
+        "linux": "/var/article_share/uploaded_file"
+    },
+    
+    "admin": [
+        {"username": "admin",
+        "password": "admin"}
+    ],
+
+    "http": {
+        "domain": "127.0.0.1",
+        "secure": false,
+        "listen": "127.0.0.1:18888"
+    },
+
+    "beian": "<!-- <div>若网站有备案号，请更改这里并去掉注释</div> -->"
+}

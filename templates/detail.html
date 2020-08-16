@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/static/img/favicon.png" type="image/png">
+    <link rel="icon" href="/static/img/favicon.png" type="image/png">
+    <script type="text/javascript" src="/static/js/jquery3.5.1.js"></script>
+    <script>
+      function mclick(){
+          var title, category
+          category = $("#category")[0].textContent
+          title = $("#title")[0].textContent
+          window.location.href="/admin/re_edit?category=" + category + "&title=" + title; 
+      }
+
+      function m_delete(){
+          var title, category
+          category = $("#category")[0].textContent
+          title = $("#title")[0].textContent
+          window.location.href="/article/delete?category=" + category + "&title=" + title;
+      }
+
+    </script>
+    <title>数据之音</title>
+  </head>
+  <body>
+   <div style="text-align: center; font-family: Arial, Helvetica, sans-serif;">
+   <span id="category" style="text-align: center; color: green; visibility: hidden;" >{{.category}}</span> 
+   <!-- <span>&nbsp;--&nbsp;</span> -->
+   <span id="title" style="text-align: center; color: green;" ><strong>{{.title}}</strong></span> 
+   </div>
+   <br>
+   <div style="border: 1px 0px 2px 0px solid blue; padding: 20%; height: 600; min-height: 300; margin: 5px 5px 5px 5px; text-justify: auto;">
+   <p>{{.content | user_define_safe }}</p>
+   </div>
+   
+   <button style="float: right; color: blue; border-width: 0px;" onclick="m_delete()">删除(仅站长有效)</button>
+   <button  style="float: right; color: blue; border-width: 0px;" onclick="mclick()" >编辑(仅站长有效)</button>
+   
+   {{.beian| user_define_safe}}
+
+  </body>
+</html>

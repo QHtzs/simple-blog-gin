@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" href="/static/img/favicon.png" type="image/png">
+    <link rel="icon" href="/static/img/favicon.png" type="image/png">
+    <script type="text/javascript" src="/static/js/jquery3.5.1.js"></script>
+    <title>数据之音</title>
+  </head>
+  <script>
+      $.get("/article/list", function(data) {
+         var obj = {}
+         for (const article of data) {
+            var str = '<a href="/article/detail?title=' + article["title"] + "&category=" + article["category"] + '" >'
+            str +=  "<span>" + article["title"] + "  <span><br></strong>"
+            str +=  "<p>" + article["brief"] + "</p></a>"
+            var div = obj[article["category"]]
+            if(!div){
+              div = document.createElement("div")
+              div.style.borderColor = "green"
+              div.style.padding = "10px 10px 10px 10px"
+              div.innerHTML = "<strong><span>" + article["category"] + " </span>"
+              $("#list")[0].appendChild(div)
+              obj[article["category"]] = div
+            }
+            var children = document.createElement("div")
+            children.style.margin = "3%"
+            children.style.borderColor = "blue"
+            children.style.height = "200"
+            children.style.textAlign = "center"
+            children.innerHTML = str
+            div.appendChild(children)
+         }
+      }, "json"
+      )
+  </script>
+  <body>
+    <div id="list">
+
+    </div>
+    
+    {{.beian| user_define_safe}}
+    
+  </body>
+</html>
