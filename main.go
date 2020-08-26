@@ -78,7 +78,11 @@ func main() {
 		c.Redirect(302, "/admin/login")
 	})
 	Auth := authm.CreateAuthByCookieHandle(func(c *gin.Context) {
-		c.Redirect(302, "/admin/login")
+		next := c.Query("next")
+		if next == "" {
+			next = c.Request.RequestURI
+		}
+		c.Redirect(302, "/admin/login?next="+next)
 	})
 
 	r.GET("/admin/login", func(c *gin.Context) {
@@ -86,7 +90,11 @@ func main() {
 	})
 
 	r.POST("/admin/login", SessionValid, AuthAndSave, func(c *gin.Context) {
-		c.Redirect(302, "/")
+		url := c.Query("next")
+		if url == "" {
+			url = "/"
+		}
+		c.Redirect(302, url)
 	})
 
 	r.GET("/admin/edit", SessionValid, Auth, func(c *gin.Context) {
