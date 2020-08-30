@@ -8,9 +8,11 @@ import (
 	"html/template"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
 	"regexp"
 	"runtime"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -82,6 +84,7 @@ func main() {
 		if next == "" {
 			next = c.Request.RequestURI
 		}
+		next = url.QueryEscape(next)
 		c.Redirect(302, "/admin/login?next="+next)
 	})
 
@@ -90,11 +93,13 @@ func main() {
 	})
 
 	r.POST("/admin/login", SessionValid, AuthAndSave, func(c *gin.Context) {
-		url := c.Query("next")
-		if url == "" {
-			url = "/"
+		next := c.Query("next")
+		if next == "" {
+			next = "/"
+		} else {
+			next, _ = url.QueryUnescape(next)
 		}
-		c.Redirect(302, url)
+		c.Redirect(302, next)
 	})
 
 	r.GET("/admin/edit", SessionValid, Auth, func(c *gin.Context) {
@@ -126,7 +131,7 @@ func main() {
 		if engines != nil {
 			engine = engines[0]
 		}
-		name := base64.StdEncoding.EncodeToString([]byte(file.Filename)) + engine
+		name := base64.StdEncoding.EncodeToString([]byte(file.Filename+time.Now().String())) + engine
 		c.SaveUploadedFile(file, u.FileSaveDir+"/"+name)
 		c.JSON(http.StatusOK, gin.H{"location": "/files?filename=" + name})
 	})
